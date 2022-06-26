@@ -1,5 +1,31 @@
 # WeMos Hand Grip Game
 
+## Get started with Arduino [D1/D1 mini series]
+
+### Requirements
+
+- [CH340 Driver](https://www.wemos.cc/en/latest/ch340_driver.html)
+- [Python](https://www.python.org/downloads/)
+- [Arduino IDE](https://www.arduino.cc/)
+
+### Installing with Boards Manager
+
+- Start Arduino and open the Preferences window.
+- Enter ```https://arduino.esp8266.com/stable/package_esp8266com_index.json``` into the *File > Preferences > Additional Boards Manager URLs* field of the Arduino IDE. You can add multiple URLs, separating them with commas.
+- Open Boards Manager from *Tools > Board* menu and install *esp8266* platform (and don't forget to select your ESP8266 board from Tools > Board menu after installation).
+
+### Configure Board
+
+After install hardware package, you will see LOLIN(WEMOS) D1 R2 & mini boards in the Tools→Board:xxx Choose your right board.
+
+## Get started with TFT LCD 1.8
+
+### Installing Essential Libraries
+
+- Adafruit ST7735 and ST7789 Library
+
+Enter essential libraries into the *Tools > Mange Libraries...* and install them
+
 ## Flowchart
 
 ```mermaid
