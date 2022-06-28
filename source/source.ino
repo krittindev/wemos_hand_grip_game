@@ -22,6 +22,9 @@
 //!! Buzzer pin
 #define BZZ D8
 
+// Constant
+#define FLEX_VALUE 380
+
 //!! For ST7735-based displays, we will use this call
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
@@ -160,7 +163,10 @@ void buttonWait(int num){
         btn3 = digitalRead(BTN_3);
         btn4 = digitalRead(BTN_4);
         if ((num == 2 && btn2 == stateBtnPress) || (num == 3 && btn3 == stateBtnPress)){
-          score += (flx - 380) * scorePerTime / 15 > scorePerTime? scorePerTime: (flx - 380) * scorePerTime / 15;
+          if((flx - FLEX_VALUE) * scorePerTime / 15 > scorePerTime)
+            score += scorePerTime
+          else if((flx - FLEX_VALUE) * scorePerTime / 15 > 0)
+            score += (flx - FLEX_VALUE) * scorePerTime / 15
           roundCount++;
           tone(BZZ, 100);
           delay(100);
