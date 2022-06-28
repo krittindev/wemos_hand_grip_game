@@ -24,6 +24,7 @@
 
 // Constant
 #define FLEX_VALUE 380
+#define FLEX_DIVIDE_VALUE 15
 
 //!! For ST7735-based displays, we will use this call
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
@@ -163,10 +164,10 @@ void buttonWait(int num){
         btn3 = digitalRead(BTN_3);
         btn4 = digitalRead(BTN_4);
         if ((num == 2 && btn2 == stateBtnPress) || (num == 3 && btn3 == stateBtnPress)){
-          if((flx - FLEX_VALUE) * scorePerTime / 15 > scorePerTime)
+          if((flx - FLEX_VALUE) * scorePerTime / FLEX_DIVIDE_VALUE > scorePerTime)
             score += scorePerTime
-          else if((flx - FLEX_VALUE) * scorePerTime / 15 > 0)
-            score += (flx - FLEX_VALUE) * scorePerTime / 15
+          else if((flx - FLEX_VALUE) * scorePerTime / FLEX_DIVIDE_VALUE > 0)
+            score += (flx - FLEX_VALUE) * scorePerTime / FLEX_DIVIDE_VALUE
           roundCount++;
           tone(BZZ, 100);
           delay(100);
