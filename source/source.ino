@@ -45,7 +45,7 @@ int stateBtnPress = LOW;
 int randNum = 0;
 
 int timePerLevel = 10;
-int scorePerTime = 3;
+int scorePerTime = 10;
 
 //home 0
 //level_1 1
@@ -58,6 +58,7 @@ void setup(void) {
 
   //!! init TFT LCD
   tft.initR(INITR_BLACKTAB);
+  tft.setRotation(1);
   tft.fillScreen(ST77XX_BLACK);
   // tftPrintAllNum();
   // tftPrintSingleNum(1);
@@ -83,13 +84,20 @@ void loop() {
   btn2 = digitalRead(BTN_2);
   btn3 = digitalRead(BTN_3);
   btn4 = digitalRead(BTN_4);
-  delay(100);
-  play();
+  
+  process();
+
+//  tftPrintSingleNum(4); // test print number
+//  tftPrintHome(); // test print home page
+//  tftPrintLevel(); // test print level page
+//  tftPrintScore(); // test print score page
+//  delay(10000); // test time
+
   Serial.printf("btn1: %d, btn2: %d, btn3: %d, btn4: %d, flx: %d \n", btn1, btn2, btn3, btn4, flx);
 }
 
-void play(){
-
+void process(){
+  delay(100);
   // page check
   switch(currentPage){
     case 0: // Home
@@ -165,9 +173,9 @@ void buttonWait(int num){
         btn4 = digitalRead(BTN_4);
         if ((num == 2 && btn2 == stateBtnPress) || (num == 3 && btn3 == stateBtnPress)){
           if((flx - FLEX_VALUE) * scorePerTime / FLEX_DIVIDE_VALUE > scorePerTime)
-            score += scorePerTime
+            score += scorePerTime;
           else if((flx - FLEX_VALUE) * scorePerTime / FLEX_DIVIDE_VALUE > 0)
-            score += (flx - FLEX_VALUE) * scorePerTime / FLEX_DIVIDE_VALUE
+            score += (flx - FLEX_VALUE) * scorePerTime / FLEX_DIVIDE_VALUE;
           roundCount++;
           tone(BZZ, 100);
           delay(100);
@@ -181,77 +189,53 @@ void buttonWait(int num){
 
 void tftPrintScore() {
   tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(0, 20);
+  tft.setCursor(50, 20);
   tft.setTextColor(ST77XX_GREEN);
   tft.setTextSize(2);
   tft.print("Score");
-  tft.setCursor(0, 60);
+  tft.setCursor(50, 60);
   tft.setTextColor(ST77XX_WHITE);
-  tft.printf("%d/%d", score, timePerLevel*scorePerTime);
+  tft.printf("%2d/%2d", score, timePerLevel*scorePerTime);
   tft.setTextSize(1);
-  tft.setCursor(0, 100);
+  tft.setCursor(40, 100);
   tft.print("Press 1 To Exit");
 }
 
 void tftPrintLevel() {
   tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(0, 20);
+  tft.setCursor(20, 20);
   tft.setTextColor(ST77XX_GREEN);
-  tft.setTextSize(1);
-  tft.printf("Level %d", currentPage);
-  tft.setCursor(0, 40);
+  tft.setTextSize(2);
+  tft.printf("Level %1d", currentPage);
+  tft.setCursor(20, 50);
   tft.setTextColor(ST77XX_WHITE);
-  tft.printf("Round %d/10", roundCount);
-  tft.setCursor(0, 60);
+  tft.printf("Round %2d/10", roundCount);
+  tft.setCursor(20, 80);
   tft.setTextColor(ST77XX_WHITE);
-  tft.printf("Score %d/30", score);
+  tft.printf("Score %2d/30", score);
 }
 
 void tftPrintHome() {
   tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(0, 20);
+  tft.setCursor(30, 30);
   tft.setTextColor(ST77XX_GREEN);
   tft.setTextSize(1);
   tft.print("Please Select");
-  tft.setCursor(0, 40);
+  tft.setCursor(30, 50);
   tft.setTextColor(ST77XX_WHITE);
   tft.print("Level 1 (Easy)");
-  tft.setCursor(0, 60);
+  tft.setCursor(30, 70);
   tft.setTextColor(ST77XX_WHITE);
   tft.print("Level 2 (Medium)");
-  tft.setCursor(0, 80);
+  tft.setCursor(30, 90);
   tft.setTextColor(ST77XX_WHITE);
   tft.print("Level 3 (Hard)");
 }
 
 void tftPrintSingleNum(int number) {  
   tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(30, 50);
+  tft.setCursor(50, 30);
   tft.setTextColor(ST77XX_WHITE);
   tft.setTextSize(10);
   tft.print(number);
-}
-
-void tftPrintAllNum() {
-  tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(0, 70);
-  tft.setTextColor(ST77XX_WHITE);
-  tft.setTextSize(3);
-  tft.print("1 2 3 4");
-}
-
-void tftPrintSmallNum(int number) {
-  tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(0, 70);
-  tft.setTextColor(ST77XX_WHITE);
-  tft.setTextSize(3);
-  tft.print(number);
-}
-
-void tftPrintBool(bool bl) {
-  tft.fillScreen(ST77XX_BLACK);
-  tft.setCursor(0, 70);
-  tft.setTextColor(ST77XX_WHITE);
-  tft.setTextSize(3);
-  tft.print(bl);
 }
